@@ -1,0 +1,25 @@
+application: herb-cards
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: /_ah/spi/.*
+  script: cah_api.application
+- url: /bootstrap
+  static_dir: static/bootstrap
+- url: /
+  static_files: templates/index.html
+  upload: templates/index\.html
+- url: /js
+  static_dir: static/js
+
+builtins:
+- remote_api: on
+
+libraries:
+- name: pycrypto
+  version: latest
+- name: endpoints
+  version: 1.0

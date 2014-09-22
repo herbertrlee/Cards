@@ -1,0 +1,28 @@
+indexes:
+
+- kind: Submission
+  properties:
+  - name: gameId
+  - name: status
+
+- kind: Submission
+  properties:
+  - name: playerKey
+  - name: status
+
+- kind: Player
+  properties:
+  - name: user
+  - name: gameId
+
+- kind: PastRound
+  properties:
+  - name: gameId
+  - name: roundNumber
+    direction: desc
+
+- kind: Submission
+  properties:
+  - name: gameId
+  - name: roundNumber
+    direction: desc
