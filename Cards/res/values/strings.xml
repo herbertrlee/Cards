@@ -27,8 +27,11 @@
     <string name="history">History</string>
     <string name="game">Game</string>
     <string name="info">Info</string>
+    <string name="create_new_game">Create New Game</string>
+    <string name="join_existing_game">Join Existing Game</string>
     
-    <string name="your_games">Your Current Games</string>
+    <string name="your_turn">It\'s Your Turn!</string>
+    <string name="waiting_for_others">Waiting For Others</string>
     <string name="pending_games">Open Games</string>
     
     <string name="player_number_prompt">Select number of players</string>

@@ -84,6 +84,10 @@ public class MainActivity extends BaseGameActivity implements MainMenuFragment.L
 	String currentFragTag;
 	
 	JSONObject currentGame;
+	JSONArray pastRounds;
+	JSONArray pastSubmissions;
+	int pastRoundIndex = 0;
+	
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -440,10 +444,16 @@ public class MainActivity extends BaseGameActivity implements MainMenuFragment.L
 			isCzar = json.getBoolean("isCzar");
 			
 			String gameId = currentGame.getString("gameId");
-			int numPlayers = currentGame.getInt("subsNeeded") + currentGame.getJSONArray("submissionIds").length();
+			
+			int numPlayers = currentGame.getInt("subsNeeded");
+			if(currentGame.has("submissionIds"))
+			{
+				 numPlayers += currentGame.getJSONArray("submissionIds").length();
+			}
 			
 			endpointsHandler.fetchPastRounds(gameId, null);
 			endpointsHandler.fetchPastSubmissions(gameId, numPlayers, null);
+			gameHistoryFragment.setCurrentRound(json.getInt("currentRound"));
 		} catch (JSONException e1)
 		{
 			// TODO Auto-generated catch block
@@ -624,24 +634,118 @@ public class MainActivity extends BaseGameActivity implements MainMenuFragment.L
 	@Override
 	public void pageForward()
 	{
-		// TODO Auto-generated method stub
-		
+		try
+		{
+			if(pastRoundIndex > 0)
+			{
+				pastRoundIndex--;
+				updatePastRoundInfo();
+				updatePastRoundSubmissionInfo();
+			}
+			
+		} catch (JSONException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void pageBackward()
 	{
-		// TODO Auto-generated method stub
-		
+		try
+		{
+			if(pastRoundIndex < pastRounds.length() - 1)
+			{
+				pastRoundIndex++;
+				updatePastRoundInfo();
+				updatePastRoundSubmissionInfo();
+			}
+			
+		} catch (JSONException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
-	public void setPastSubmissions(JSONArray submissionsJSON)
+	@Override
+	public void jumpToPage(int i)
 	{
-		
+		if(i != pastRoundIndex)
+		{
+			try
+			{
+				pastRoundIndex = i;
+				updatePastRoundInfo();
+				updatePastRoundSubmissionInfo();
+			} catch (JSONException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
-	public void setPastRounds(JSONArray pastRoundsJSON)
+	public void setPastSubmissions(JSONArray submissionsJSON) throws JSONException
 	{
+		pastSubmissions = submissionsJSON;
+		updatePastRoundSubmissionInfo();
+	}
+	
+	private void updatePastRoundSubmissionInfo() throws JSONException
+	{
+		int roundNumber = pastRounds.getJSONObject(pastRoundIndex).getInt("roundNumber");
 		
+		JSONArray currentPastRoundSubmissions = new JSONArray();
+		
+		for(int i=0;i<pastSubmissions.length();i++)
+		{
+			JSONObject submission = pastSubmissions.getJSONObject(i);
+			if(submission.getInt("roundNumber") == roundNumber)
+			{
+				JSONArray whiteCardIds = submission.getJSONArray("whiteCardIds");
+				
+				int[] ids = new int[whiteCardIds.length()];
+				
+				for(int j=0;j<whiteCardIds.length();j++)
+					ids[j] = whiteCardIds.getInt(j);
+				
+				submission.put("whiteCardInfos", dbHandler.getWhiteCards(ids));
+				
+				currentPastRoundSubmissions.put(submission);
+			}
+		}
+		
+		gameHistoryFragment.setSubmissionInfo(currentPastRoundSubmissions);
+		gameHistoryFragment.updateUi();
+	}
+
+	public void setPastRounds(JSONArray pastRoundsJSON) throws JSONException
+	{
+		pastRounds = pastRoundsJSON;
+		pastRoundIndex = 0;
+		updatePastRoundInfo();
+	}
+	
+	private void updatePastRoundInfo() throws JSONException
+	{
+		gameHistoryFragment.setRoundInfo(pastRounds.getJSONObject(pastRoundIndex));
+		gameHistoryFragment.setBlackCard(dbHandler.getBlackCard(pastRounds.getJSONObject(pastRoundIndex).getInt("blackCardId")));
+		gameHistoryFragment.updateUi();
+	}
+
+	@Override
+	public void goToCreateGameScreen()
+	{
+		endpointsHandler.fetchCardSets();
+		switchToFragment(createGameFragment);
+	}
+
+	@Override
+	public void goToPendingGameListScreen()
+	{
+		endpointsHandler.fetchPendingGames();
+		switchToFragment(pendingGameListFragment);
 	}
 }

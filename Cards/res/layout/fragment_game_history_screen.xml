@@ -28,8 +28,28 @@
 		    style="@style/BlackCard"
 		    android:layout_marginRight="10dp"
 		    />
-		
+		<ScrollView
+		    android:layout_width="0dp"
+		    android:layout_weight="1"
+		    android:layout_height="200dp"
+		     >
+		    <RadioGroup
+		        android:id="@+id/player_radio_group"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		         >
+		        
+		    </RadioGroup>
+		    
+		</ScrollView>
 	</LinearLayout>
+	<FrameLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:id="@+id/submission_history_container"
+	    >
+	    
+	</FrameLayout>
 	<LinearLayout
 	    android:orientation="horizontal"
 	    android:layout_width="match_parent"
@@ -37,6 +57,7 @@
 	    android:layout_marginTop="10dp"
 	    android:gravity="center"
 	    android:weightSum="3"
+	    android:background="@color/lightGray"
 	    >
 	    <Button
 	        android:id="@+id/back_button"
@@ -45,7 +66,7 @@
 	        android:layout_weight="1"
 	        android:gravity="center"
 	        android:padding="5dp"
-	        style="@android:style/TextAppearance.Medium"
+	        style="?android:attr/buttonBarButtonStyle"
 	        android:text="@string/backward"
 	        />
         <Spinner
@@ -53,7 +74,7 @@
             android:layout_weight="1"
             android:prompt="@string/jump"
             android:layout_height="wrap_content"
-            android:id="@+id/jump_round_spinner"
+            android:id="@+id/round_select_spinner"
             />
 	    <Button
 	        android:id="@+id/forward_button"
@@ -62,7 +83,7 @@
 	        android:layout_weight="1"
 	        android:gravity="center"
 	        android:padding="5dp"
-	        style="@android:style/TextAppearance.Medium"
+	        style="?android:attr/buttonBarButtonStyle"
 	        android:text="@string/forward"
 	        />
 	</LinearLayout>

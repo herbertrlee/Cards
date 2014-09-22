@@ -3,19 +3,68 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" 
-    android:gravity="center"
+    android:gravity="center_horizontal|top"
     android:padding="10dp">
 	
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/your_games" 
+        android:text="@string/your_turn" 
+        style="@style/WhiteCard"
+        android:gravity="center"
         />
     <LinearLayout 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:id="@+id/current_game_list_linear_layout">
+        android:showDividers="middle"
+        android:divider="@drawable/vertical_divider"
+        android:id="@+id/active_game_list_linear_layout"
+        style="@style/BlackCard"
+        android:padding="10dp"
+        android:layout_marginTop="10dp">
         
     </LinearLayout>
+    
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/waiting_for_others" 
+        style="@style/WhiteCard"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        />
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:showDividers="middle"
+        android:divider="@drawable/vertical_divider"
+        android:id="@+id/waiting_game_list_linear_layout"
+        style="@style/BlackCard"
+        android:padding="10dp"
+        android:layout_marginTop="10dp">
+        
+    </LinearLayout>
+    
+    <TextView 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/create_new_game" 
+        style="@style/WhiteCard"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:clickable="true"
+        android:id="@+id/go_to_create_game_text_view"
+        />
+    <TextView 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/join_existing_game" 
+        style="@style/WhiteCard"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:clickable="true"
+        android:id="@+id/go_to_pending_games_text_view"
+        />
 </LinearLayout>

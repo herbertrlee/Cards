@@ -51,18 +51,24 @@
 	    android:layout_height="wrap_content"
 	    android:orientation="horizontal"
 	    android:layout_marginTop="10dp"
+	    style="?android:attr/buttonBarStyle"
+	    android:background="@color/lightGray"
 	    >
 		<Button
 		    android:id="@+id/reset_selections_button"
-		    android:layout_width="wrap_content"
+		    android:layout_width="0dp"
+		    android:layout_weight="0.5"
 		    android:layout_height="wrap_content"
 		    android:text="@string/reset"
+	        style="?android:attr/buttonBarButtonStyle"
 		    />
 		<Button
 		    android:id="@+id/submit_white_button"
-		    android:layout_width="wrap_content"
+		    android:layout_width="0dp"
+		    android:layout_weight="0.5"
 		    android:layout_height="wrap_content"
 		    android:text="@string/submit"
+	        style="?android:attr/buttonBarButtonStyle"
 		    />
 	</LinearLayout>
 </LinearLayout>
